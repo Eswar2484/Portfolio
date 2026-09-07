@@ -1,6 +1,3 @@
-// ==========================================
-// ESWAR S. Portfolio - Main JavaScript
-// ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
   // --- 1. Mobile Menu Toggle & Smooth Scroll ---
