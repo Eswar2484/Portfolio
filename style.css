@@ -104,11 +104,108 @@ a{color:inherit;text-decoration:none}
 .about-text{color:var(--muted);font-size:16px}.about-text p+p{margin-top:20px}.text-link{display:inline-block;color:var(--accent2);margin-top:25px;font-weight:700}
 .about-stats{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);height:max-content}
 .stat{background:var(--surface);padding:22px}.stat strong{display:block;font:700 32px "Space Grotesk";color:var(--accent2)}.stat span{font-size:13px;color:var(--muted)}
-.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.skill-card,.project-card{border:1px solid var(--line);background:var(--bg);border-radius:14px}
-.skill-card{padding:28px;transition:.25s}.skill-card:hover,.project-card:hover{transform:translateY(-5px);border-color:rgba(139,124,255,.55)}
-.skill-icon{width:45px;height:45px;display:grid;place-items:center;border:1px solid var(--line);border-radius:10px;color:var(--accent2);font-weight:700;margin-bottom:20px}
-.skill-card h3{font:600 19px "Space Grotesk";margin-bottom:6px}.skill-card p{color:var(--muted);font-size:13px}
+/* Skills Grid & Aura Glow Effects */
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.skill-card, .certificate-card {
+  position: relative;
+  z-index: 1;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  border-radius: 18px;
+  overflow: visible;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Backside Aura Glow for Skills & Certificates */
+.skill-card::before,
+.certificate-card::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  right: -12px;
+  bottom: -12px;
+  border-radius: 24px;
+  background: radial-gradient(circle, rgba(139, 124, 255, 0.55), rgba(77, 168, 218, 0.3), transparent 70%);
+  filter: blur(28px);
+  z-index: -1;
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+.skill-card:hover::before,
+.certificate-card:hover::before {
+  opacity: 1;
+  transform: scale(1.04);
+  animation: cardAuraPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes cardAuraPulse {
+  0% { opacity: 0.75; filter: blur(22px); }
+  100% { opacity: 1; filter: blur(34px); }
+}
+
+.skill-card:hover,
+.certificate-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  border-color: rgba(139, 124, 255, 0.75);
+  box-shadow: 0 16px 45px rgba(139, 124, 255, 0.3), 0 0 30px rgba(139, 124, 255, 0.2);
+}
+
+.skill-card { padding: 28px; }
+.skill-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(139, 124, 255, 0.3);
+  background: rgba(139, 124, 255, 0.08);
+  border-radius: 12px;
+  color: var(--accent2);
+  font-weight: 700;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.skill-card h3 { font: 600 19px "Space Grotesk"; margin-bottom: 6px; color: #fff; }
+.skill-card p { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+/* Tech Badges with SVGs */
+.tech-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.tech-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font: 500 12px "Space Grotesk", sans-serif;
+  color: #e2e8f0;
+  transition: all 0.25s ease;
+}
+
+.tech-tag:hover {
+  background: rgba(139, 124, 255, 0.18);
+  border-color: rgba(139, 124, 255, 0.55);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(139, 124, 255, 0.25);
+}
+
+.tech-tag svg {
+  flex-shrink: 0;
+}
+
 .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .project-card{padding:30px;min-height:310px;position:relative;overflow:hidden}.project-card.featured{grid-column:span 2;min-height:280px}
 .project-number{font:600 13px "Space Grotesk";color:var(--accent2);margin-bottom:30px}
@@ -139,7 +236,7 @@ a{color:inherit;text-decoration:none}
 .certificates-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
+  gap: 20px;
 }
 
 .certificate-card {
@@ -148,13 +245,7 @@ a{color:inherit;text-decoration:none}
   padding: 28px;
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 14px;
-  transition: 0.25s;
-}
-
-.certificate-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(139,124,255,.55);
+  border-radius: 18px;
 }
 
 .certificate-icon {
@@ -163,9 +254,9 @@ a{color:inherit;text-decoration:none}
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  background: var(--surface2);
-  border: 1px solid var(--line);
-  border-radius: 10px;
+  background: rgba(139, 124, 255, 0.08);
+  border: 1px solid rgba(139, 124, 255, 0.3);
+  border-radius: 12px;
   font-size: 22px;
 }
 
@@ -219,20 +310,36 @@ a{color:inherit;text-decoration:none}
   transform: translateY(-2px);
 }
 
+/* Modern Cert Button Style */
 .cert-btn {
-  background: none;
-  border: none;
-  padding: 0;
+  background: linear-gradient(135deg, rgba(139, 124, 255, 0.15), rgba(77, 168, 218, 0.15));
+  border: 1px solid rgba(139, 124, 255, 0.45);
+  border-radius: 30px;
+  padding: 8px 18px;
+  color: #fff;
+  font: 600 13px "Space Grotesk", sans-serif;
   cursor: pointer;
-  font-family: inherit;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .cert-btn:hover {
-  text-decoration: underline;
-  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-color: var(--accent2);
+  color: #0c0d12;
+  box-shadow: 0 0 22px rgba(139, 124, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.cert-btn .arrow-icon {
+  transition: transform 0.25s ease;
+}
+
+.cert-btn:hover .arrow-icon {
+  transform: translateX(3px) translateY(-3px);
 }
 
 /* Modal Lightbox */
